@@ -1,4 +1,6 @@
 {
+  "name": "chat-app",
+  "author": "https://github.com/AykutSarac",
   "version": "0.0.1",
   "scripts": {
     "dev": "vite",
