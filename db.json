@@ -1,0 +1,62 @@
+{
+  "channels": [
+    {
+      "name": "Message Group",
+      "users": [
+        1
+      ],
+      "id": 1
+    },
+    {
+      "name": "Demo",
+      "users": [
+        1
+      ],
+      "id": 2
+    },
+    {
+      "name": "Demo 2",
+      "users": [
+        2
+      ],
+      "id": 3
+    }
+  ],
+  "users": [
+    {
+      "username": "Aykut",
+      "id": 1
+    },
+    {
+      "username": "John Doe",
+      "id": 2,
+      "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Elton_John_2011_Shankbone_2.JPG/1200px-Elton_John_2011_Shankbone_2.JPG"
+    }
+  ],
+  "messages": [
+    {
+      "message": "Good morning!",
+      "userId": 1,
+      "id": 1,
+      "channelId": 1
+    },
+    {
+      "message": "g' mornin again!",
+      "userId": 2,
+      "id": 2,
+      "channelId": 1
+    },
+    {
+      "channelId": 2,
+      "message": "hi",
+      "userId": 1,
+      "id": 3
+    },
+    {
+      "channelId": 3,
+      "message": "hi",
+      "userId": 2,
+      "id": 4
+    }
+  ]
+}
