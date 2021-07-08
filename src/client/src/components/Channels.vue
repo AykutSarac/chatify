@@ -3,14 +3,14 @@
     <div class="d-flex flex-column">
       <div class="d-flex flex-row justify-content-between mx-1 m-2 w-90">
         <h5 class="fw-bold mt-auto mr-2">Channel List</h5>
-        <button class="btn btn-md btn-danger">+</button>
+        <button class="btn btn-md btn-success">+</button>
       </div>
 
       <a
         href="#"
         v-for="channel in channels"
         :key="channel.id"
-        class="d-flex flex-column mt-2 gap-3"
+        class="d-flex flex-column mt-2 gap-1"
         :class="{ current: channel.id === currentChannel.id }"
         :id="channel.id"
         @click="setCurrentChannel"
@@ -49,7 +49,7 @@ export default {
 <style scoped>
 .current,
 .current:hover {
-  background: #ecd1d1;
+  background: #dfecd1;
 }
 
 a {

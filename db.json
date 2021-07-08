@@ -3,7 +3,7 @@
     {
       "name": "Message Group",
       "users": [
-        1
+        1, 2
       ],
       "id": 1
     },
@@ -17,7 +17,7 @@
     {
       "name": "Demo 2",
       "users": [
-        2
+        2, 1
       ],
       "id": 3
     }

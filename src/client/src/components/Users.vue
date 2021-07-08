@@ -1,23 +1,31 @@
 <template>
   <div class="col-2 d-flex flex-column p-0 users">
     <a
+      v-for="user in channelUsers"
+      :key="user.id"
       href="#"
-      class="profile p-1 m-3 mx-2 d-flex flex-row align-items-center gap-2"
+      class="profile p-1 m-2 mx-2 d-flex flex-row align-items-center gap-2"
     >
-      <img :src="avatar1" width="38" height="38" alt="avatar" />
-      Aykut
+      <img :src="user?.avatar || avatar1" width="38" height="38" alt="avatar" />
+      <span>{{ user.username }}</span>
     </a>
   </div>
 </template>
 
 <script>
+import { inject } from "@vue/runtime-core";
 import avatar1 from "../assets/avatar1.svg";
 
 export default {
   name: "Users",
   setup() {
+    const store = inject("store");
+
+    const { channelUsers } = store();
+
     return {
       avatar1,
+      channelUsers,
     };
   },
 };
@@ -29,8 +37,14 @@ export default {
 }
 
 a:hover {
-  background: #ecd1d1;
+  background: #dfecd1;
   border-radius: 5px;
+}
+
+.profile span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 @media screen and (max-width: 1024px) {

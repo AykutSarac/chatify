@@ -13,7 +13,7 @@
   >
     <div class="d-flex flex-column justify-content-between chat">
       <div class="d-flex justify-content-center mb-5">
-        <h2 class="text-info fw-bold">{{ currentChannel.name }}</h2>
+        <h2 class="text-success fw-bold">{{ currentChannel.name }}</h2>
       </div>
 
       <div class="chatlist">
@@ -86,7 +86,7 @@ input {
 
 .chatbox:focus,
 .chatfield {
-  background: #ecd1d1;
+  background: #dfecd1;
 }
 
 .chatfield {

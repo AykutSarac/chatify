@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar p-2 bg-danger text-light w-100">
+  <div class="navbar p-2 bg-success text-light w-100">
     <h2>Chatify</h2>
   </div>
 </template>

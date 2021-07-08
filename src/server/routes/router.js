@@ -41,10 +41,19 @@ module.exports = function (fastify, options, done) {
         try {
             const { channelId } = req.query;
 
-            const data = await instance.get('/channels/' + channelId,).then(res => res.data)
-            const channelList = data.filter(ch => ch.users.includes(Number(userId)))
 
-            res.status(200).send(channelList);
+            const sortByName = (a, b) => {
+                if (a.username < b.username) { return -1; }
+                if (a.username > b.username) { return 1; }
+                return 0;
+            }
+
+            const data = await instance.get('/channels/' + channelId).then(res => res.data?.users)
+            const userList = await Promise.all(data.map(async userId =>
+                await instance.get('/users/' + userId).then(res => res.data)
+            ))
+
+            res.status(200).send(userList.sort(sortByName));
         } catch (err) {
             res.status(404).send(err)
             console.error(err.response)
@@ -56,7 +65,7 @@ module.exports = function (fastify, options, done) {
     // Get all messages of the channel
     fastify.get('/messages', async (req, res) => {
         try {
-            const { channelId }  = req.query;
+            const { channelId } = req.query;
 
             const data = await instance.get('/messages').then(res => res.data)
             const messageList = await Promise.all(data.filter(msg => msg.channelId === Number(channelId)).map(async msg => {
