@@ -1,7 +1,8 @@
+<div align="center">
+<h1>💬 Chatify</h1>
+</div>
 
-# <center>💬 Chatify</center>
-
-<center>Full stack Chat Application made with Vue 3 & Fastify.</center>
+<div align="center">Full stack Chat Application made with Vue 3 & Fastify.</div>
 
 ## Preview
 
@@ -9,17 +10,17 @@
 
 **Frontend Stack:**
 
-* Vue 3 & Composition API
+- Vue 3 & Composition API
 
-* Bootstrap
+- Bootstrap
 
-* Vite
+- Vite
 
 **Backend Stack:**
 
-* Fastify
+- Fastify
 
-* JSON-Server
+- JSON-Server
 
 ## Installation
 
@@ -33,7 +34,7 @@ npm run concurrently
 
 ## Author
 
-* Aykut Sarac
+- Aykut Sarac
 
 ## License
 
