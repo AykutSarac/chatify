@@ -3,7 +3,7 @@
     <div class="d-flex flex-column">
       <div class="d-flex flex-row justify-content-between mx-1 m-2 w-90">
         <h5 class="fw-bold mt-auto mr-2">Channel List</h5>
-        <button class="btn btn-md btn-success">+</button>
+        <button class="btn btn-md btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">+</button>
       </div>
 
       <a
@@ -19,10 +19,12 @@
         <span class="text-muted">Last message...</span>
       </a>
     </div>
+    <CreateChannelModal />
   </div>
 </template>
 
 <script>
+import CreateChannelModal from './CreateChannelModal.vue'
 import { inject } from "vue";
 
 export default {
@@ -43,6 +45,7 @@ export default {
       setCurrentChannel,
     };
   },
+  components: { CreateChannelModal }
 };
 </script>
 
