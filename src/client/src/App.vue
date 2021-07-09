@@ -17,12 +17,12 @@ import { provide } from "@vue/runtime-core";
 import store from "./store";
 provide("store", store);
 
-/* const { setUser, currentUser } = store();
+const { setUser, currentUser } = store();
 
 if (sessionStorage.getItem("user")) {
   const userData = JSON.parse(sessionStorage.getItem("user"));
   setUser(userData.id);
-} */
+}
 
 </script>
 
