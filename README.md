@@ -1,5 +1,5 @@
 
-<center> <h1>💬 Chatify </h1> </center>
+# <center>💬 Chatify</center>
 
 <center>Full stack Chat Application made with Vue 3 & Fastify.</center>
 
