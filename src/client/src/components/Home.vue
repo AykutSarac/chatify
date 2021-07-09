@@ -1,15 +1,13 @@
 <template>
   <Login v-if="hidden" />
   {{ currentUser.value?.id }}
-    <Suspense>
-      <Channels v-if="!hidden" />
-    </Suspense>
-    <Suspense>
-      <ChatScreen v-if="!hidden" />
-    </Suspense>
-    <Suspense>
-      <Users v-if="!hidden" />
-    </Suspense>
+  <Suspense>
+    <template v-if="!hidden" >
+      <Channels />
+      <ChatScreen/>
+      <Users/>
+    </template>
+  </Suspense>
 </template>
 
 <script>
@@ -17,7 +15,13 @@ import Login from "./Login.vue";
 import Channels from "./Channels.vue";
 import ChatScreen from "./ChatScreen.vue";
 import Users from "./Users.vue";
-import { inject, onUpdated, ref } from "@vue/runtime-core";
+
+import {
+  defineAsyncComponent,
+  inject,
+  onUpdated,
+  ref,
+} from "@vue/runtime-core";
 
 export default {
   async setup() {
@@ -26,8 +30,8 @@ export default {
     const { currentChannel, currentUser } = store();
 
     onUpdated(() => {
-      hidden.value = false
-    })
+      hidden.value = false;
+    });
 
     return {
       currentChannel,
@@ -35,6 +39,11 @@ export default {
       hidden,
     };
   },
-  components: { Channels, ChatScreen, Users, Login }
+  components: {
+    Channels,
+    ChatScreen,
+    Users,
+    Login,
+  },
 };
 </script>

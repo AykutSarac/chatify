@@ -17,7 +17,7 @@ import { provide } from "@vue/runtime-core";
 import store from "./store";
 provide("store", store);
 
-const { setUser, currentUser } = store();
+const { setUser } = store();
 
 if (sessionStorage.getItem("user")) {
   const userData = JSON.parse(sessionStorage.getItem("user"));
@@ -41,5 +41,6 @@ a {
 body {
   scroll-behavior: smooth;
   font-family: "Roboto", sans-serif;
+  font-display: auto;
 }
 </style>
