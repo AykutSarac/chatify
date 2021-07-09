@@ -1,11 +1,15 @@
 
-# Chatify
+# 💬 Chatify
 
-Full stack chat application made with Vue & Fastify.
+Full stack chat application made with Vue 3 & Fastify.
+
+## Preview
+
+![preview](https://i.ibb.co/5TymLTG/localhost-3000.png)
 
 **Frontend Stack:**
 
-* Vue w/ Composition API
+* Vue 3 & Composition API
 
 * Bootstrap
 
