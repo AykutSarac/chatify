@@ -21,9 +21,9 @@ export default function () {
             const data = await instance.get('/users?userId=' + userId).then(res => res.data)
             state.currentUser = data;
 
+            sessionStorage.setItem('user', JSON.stringify(state.currentUser))
             await getChannels(state.currentUser.id)
         } catch (err) {
-            console.log(err);
             state.error = err
         }
     }

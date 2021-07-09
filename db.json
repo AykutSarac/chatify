@@ -27,12 +27,13 @@
   "users": [
     {
       "username": "Aykut",
-      "id": 1
+      "id": 1,
+      "avatar": "/src/assets/avatar1.svg"
     },
     {
       "username": "John Doe",
       "id": 2,
-      "avatar": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Elton_John_2011_Shankbone_2.JPG/1200px-Elton_John_2011_Shankbone_2.JPG"
+      "avatar": "/src/assets/avatar2.svg"
     }
   ],
   "messages": [
@@ -45,7 +46,7 @@
     },
     {
       "channelId": 1,
-      "message": "Cool, will do surely! :P",
+      "message": "This project is made with Vue 3, Composition API, Fastify & JSON-Server.",
       "userId": 2,
       "date": "2021-07-09T10:50:49.061Z",
       "id": 2

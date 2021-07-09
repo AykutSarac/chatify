@@ -82,6 +82,7 @@ export default {
     });
 
     const userSendMsg = function (e) {
+      e.preventDefault()
       sendMessage(
         currentUser.value.id,
         currentChannel.value.id,

@@ -1,15 +1,29 @@
 <template>
-  <Suspense>
-    <Home />
-  </Suspense>
+  <div class="jumbotron vh-100 d-flex flex-column">
+    <Navbar />
+    <div class="row h-100 m-0">
+      <Suspense>
+        <Home />
+      </Suspense>
+    </div>
+  </div>
 </template>
 
 <script setup>
+import Navbar from "./components/Navbar.vue";
 import Home from "./components/Home.vue";
 import { provide } from "@vue/runtime-core";
 
 import store from "./store";
 provide("store", store);
+
+/* const { setUser, currentUser } = store();
+
+if (sessionStorage.getItem("user")) {
+  const userData = JSON.parse(sessionStorage.getItem("user"));
+  setUser(userData.id);
+} */
+
 </script>
 
 <style>

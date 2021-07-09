@@ -1,11 +1,17 @@
 const fastify = require('fastify')({ logger: false })
+const http = require("http").Server(fastify);
+const io = require("socket.io")(http);
 
 fastify.register(require('fastify-cors'), {
     origin: "*",
     methods: ["POST", "GET"]
-  })
+})
 
 fastify.register(require('./routes/router'))
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+  });
 
 // Homepage
 fastify.get('/', async (req, res) => {

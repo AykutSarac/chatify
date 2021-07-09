@@ -1,38 +1,40 @@
 <template>
-  <div class="jumbotron vh-100 d-flex flex-column" v-if="currentChannel">
-    <Navbar />
-    <div class="row h-100 m-0">
-      <Suspense>
-        <Channels />
-      </Suspense>
-      <Suspense>
-        <ChatScreen />
-      </Suspense>
-      <Suspense>
-        <Users />
-      </Suspense>
-    </div>
-  </div>
+  <Login v-if="hidden" />
+  {{ currentUser.value?.id }}
+    <Suspense>
+      <Channels v-if="!hidden" />
+    </Suspense>
+    <Suspense>
+      <ChatScreen v-if="!hidden" />
+    </Suspense>
+    <Suspense>
+      <Users v-if="!hidden" />
+    </Suspense>
 </template>
 
 <script>
-import Navbar from "./Navbar.vue";
+import Login from "./Login.vue";
 import Channels from "./Channels.vue";
 import ChatScreen from "./ChatScreen.vue";
 import Users from "./Users.vue";
-import { inject } from "@vue/runtime-core";
+import { inject, onUpdated, ref } from "@vue/runtime-core";
 
 export default {
   async setup() {
     const store = inject("store");
-    const { setUser, currentChannel } = store();
+    const hidden = ref(true);
+    const { currentChannel, currentUser } = store();
 
-    await setUser(1);
+    onUpdated(() => {
+      hidden.value = false
+    })
 
     return {
       currentChannel,
+      currentUser,
+      hidden,
     };
   },
-  components: { Navbar, Channels, ChatScreen, Users },
+  components: { Channels, ChatScreen, Users, Login }
 };
 </script>
