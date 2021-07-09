@@ -89,19 +89,24 @@ module.exports = function (fastify, options, done) {
     fastify.post('/messages', async (req, res) => {
 
         try {
-            const { userId, channelId, message } = req.body
+            const { userId, channelId, message, date } = req.body
 
             const msgData = {
                 channelId,
                 message,
-                userId
+                userId,
+                date
             }
+
+            console.log(req.body);
 
             const data = await instance.post('/messages', JSON.stringify(msgData), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
+
+            console.log(data.data);
 
             res.status(200).send(data.data)
         } catch (err) {
@@ -120,6 +125,8 @@ module.exports = function (fastify, options, done) {
 
             const chData = {
                 name,
+                createdBy: userId,
+                date: new Date(),
                 users: [userId]
             }
 

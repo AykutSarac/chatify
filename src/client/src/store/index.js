@@ -1,4 +1,6 @@
+"use strict"
 import { reactive, toRefs } from 'vue'
+import axios from 'axios'
 
 const state = reactive({
     error: null,
@@ -9,22 +11,27 @@ const state = reactive({
     channelMessages: []
 });
 
-export default function() {
+const instance = axios.create({
+    baseURL: "http://localhost:8080"
+})
+
+export default function () {
     const setUser = async (userId) => {
         try {
-            const data = await fetch('http://127.0.0.1:8080/users?userId=' + userId)
-            state.currentUser = await data.json();
+            const data = await instance.get('/users?userId=' + userId).then(res => res.data)
+            state.currentUser = data;
 
             await getChannels(state.currentUser.id)
         } catch (err) {
+            console.log(err);
             state.error = err
         }
     }
 
     const setChannelUsers = async (channelId) => {
         try {
-            const data = await fetch('http://127.0.0.1:8080/channelUsers?channelId=' + channelId)
-            state.channelUsers = await data.json();
+            const data = await instance.get('/channelUsers?channelId=' + channelId).then(res => res.data)
+            state.channelUsers = data;
         } catch (err) {
             state.error = err
         }
@@ -32,8 +39,8 @@ export default function() {
 
     const getMessages = async (channelId) => {
         try {
-            const data = await fetch('http://127.0.0.1:8080/messages?channelId=' + channelId)
-            state.channelMessages = await data.json();
+            const data = await instance.get('/messages?channelId=' + channelId).then(res => res.data)
+            state.channelMessages = data;
         } catch (err) {
             state.error = err
         }
@@ -41,9 +48,40 @@ export default function() {
 
     const getChannels = async (userId) => {
         try {
-            const data = await fetch('http://127.0.0.1:8080/channels?userId=' + userId)
-            state.channels = await data.json();
+            const data = await instance.get('/channels?userId=' + userId).then(res => res.data)
+            state.channels = data;
             if (!state.currentChannel?.id) setChannel(state.channels[0].id)
+        } catch (err) {
+            state.error = err
+        }
+    }
+
+    const sendMessage = async (userId, channelId, message) => {
+        try {
+
+            await instance.post('/messages', {
+                userId,
+                channelId,
+                message,
+                date: new Date()
+            }).then(res => res.data)
+
+            await getMessages(channelId)
+        } catch (err) {
+            state.error = err
+        }
+    }
+
+    const createChannel = async (userId, name) => {
+        try {
+
+            const data = await instance.post('/channels', {
+                userId,
+                name
+            }).then(res => res.data)
+
+            await getChannels(userId)
+            await setChannel(data.id)
         } catch (err) {
             state.error = err
         }
@@ -51,9 +89,9 @@ export default function() {
 
     const setChannel = async (channelId) => {
         try {
-            const data = await fetch('http://127.0.0.1:8080/getChannel?channelId=' + channelId)
-            state.currentChannel = await data.json()
-            
+            const data = await instance.get('/getChannel?channelId=' + channelId).then(res => res.data)
+            state.currentChannel = data
+
             await getMessages(state.currentChannel.id)
             await setChannelUsers(state.currentChannel.id)
         } catch (err) {
@@ -70,6 +108,8 @@ export default function() {
         getChannels,
         setChannel,
         setChannelUsers,
-        setUser
+        setUser,
+        sendMessage,
+        createChannel
     }
 }

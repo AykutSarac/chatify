@@ -3,7 +3,8 @@
     {
       "name": "Message Group",
       "users": [
-        1, 2
+        1,
+        2
       ],
       "id": 1
     },
@@ -17,7 +18,8 @@
     {
       "name": "Demo 2",
       "users": [
-        2, 1
+        2,
+        1
       ],
       "id": 3
     }
@@ -35,28 +37,18 @@
   ],
   "messages": [
     {
-      "message": "Good morning!",
+      "channelId": 1,
+      "message": "Check out my other projects @ GitHub! https://github.com/AykutSarac",
       "userId": 1,
-      "id": 1,
-      "channelId": 1
+      "date": "2021-07-09T10:50:03.553Z",
+      "id": 1
     },
     {
-      "message": "g' mornin again!",
+      "channelId": 1,
+      "message": "Cool, will do surely! :P",
       "userId": 2,
-      "id": 2,
-      "channelId": 1
-    },
-    {
-      "channelId": 2,
-      "message": "hi",
-      "userId": 1,
-      "id": 3
-    },
-    {
-      "channelId": 3,
-      "message": "hi",
-      "userId": 2,
-      "id": 4
+      "date": "2021-07-09T10:50:49.061Z",
+      "id": 2
     }
   ]
 }

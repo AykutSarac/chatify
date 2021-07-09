@@ -12,10 +12,22 @@
     "
   >
     <div class="d-flex flex-column justify-content-between chat">
-      <div class="d-flex justify-content-center mb-5">
+      <div
+        class="
+          d-flex
+          flex-column
+          m-auto
+          text-center
+          justify-content-center
+          mb-2
+          header
+        "
+      >
         <h2 class="text-success fw-bold">{{ currentChannel.name }}</h2>
+        <p class="text-muted" v-if="channelMessages.length === 0">
+          This place is so quiet, start chatting...
+        </p>
       </div>
-
       <div class="chatlist">
         <div
           v-for="msg in channelMessages"
@@ -32,19 +44,25 @@
           <div class="text">
             <div class="username">{{ msg.username }}</div>
             <div class="chatfield p-2 rounded">
-              {{ msg.message }}
+              <span v-html="convertToLink(msg.message)"></span>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <input type="text" class="chatbox p-2" placeholder="Send a message..." />
+    <form>
+      <input
+        type="text"
+        class="chatbox p-2"
+        placeholder="Send a message..."
+        @keyup.enter="userSendMsg"
+      />
+    </form>
   </div>
 </template>
 
 <script>
-import { inject } from "@vue/runtime-core";
+import { inject, onUpdated } from "@vue/runtime-core";
 import avatar1 from "../assets/avatar1.svg";
 
 export default {
@@ -52,14 +70,44 @@ export default {
   async setup() {
     const store = inject("store");
 
-    const { channelMessages, currentUser, currentChannel } = store();
+    const { channelMessages, currentUser, currentChannel, sendMessage } =
+      store();
+
+    onUpdated(() => {
+      const chatList = document.getElementsByClassName("chatlist")[0];
+
+      if (chatList) {
+        chatList.scrollTop = chatList.scrollHeight;
+      }
+    });
+
+    const userSendMsg = function (e) {
+      sendMessage(
+        currentUser.value.id,
+        currentChannel.value.id,
+        e.target.value
+      );
+      e.target.value = "";
+    };
 
     return {
       avatar1,
       currentUser,
       channelMessages,
-      currentChannel
+      currentChannel,
+      userSendMsg,
     };
+  },
+  methods: {
+    convertToLink: function (text) {
+      const URLMatcher =
+        /(?:(?:https?|ftp|file):\/\/|www\.|ftp\.)(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[-A-Z0-9+&@#\/%=~_|$?!:,.])*(?:\([-A-Z0-9+&@#\/%=~_|$?!:,.]*\)|[A-Z0-9+&@#\/%=~_|$])/gim;
+
+      return text.replace(
+        URLMatcher,
+        (text) => `<a class="text-primary" rel="noreferrer" target="_blank" href="${text}">${text}</a>`
+      );
+    },
   },
 };
 </script>
@@ -75,17 +123,39 @@ export default {
   color: #383838;
 }
 
+.header {
+  width: 100%;
+  border-bottom: 2px #8dbd8d solid;
+}
+
 .chatlist {
   overflow: auto;
-  height: 65vh;
+  min-height: 60vh;
+  max-height: 70vh;
+  padding-right: 1em;
+}
+
+.chatlist::-webkit-scrollbar {
+  background: #d8d6d6;
+  width: 8px;
+  border-radius: 5px;
+}
+
+.chatlist::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: #8dbd8d;
 }
 
 input {
   width: 100%;
 }
 
-.chatbox:focus,
 .chatfield {
+  background: #c6d8e4;
+}
+
+.chatbox:focus,
+.self .chatfield {
   background: #dfecd1;
 }
 
@@ -110,10 +180,6 @@ input {
   text-align: right;
   float: right;
   flex-flow: row-reverse;
-}
-
-.self .chatfield {
-  background: #c6d8e4;
 }
 
 img {
