@@ -1,7 +1,7 @@
 
-# 💬 Chatify
+<center> <h1>💬 Chatify </h1> </center>
 
-Full stack chat application made with Vue 3 & Fastify.
+<center>Full stack Chat Application made with Vue 3 & Fastify.</center>
 
 ## Preview
 
