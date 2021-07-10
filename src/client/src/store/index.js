@@ -8,7 +8,11 @@ const state = reactive({
     currentUser: {},
     currentChannel: {},
     channelUsers: [],
-    channelMessages: []
+    channelMessages: [],
+    navbar: {
+        channels: true,
+        users: true
+    }
 });
 
 const instance = axios.create({
@@ -25,6 +29,14 @@ export default function () {
             await getChannels(state.currentUser.id)
         } catch (err) {
             state.error = err
+        }
+    }
+
+    const toggleNavbar = (nav) => {
+        state.navbar = {
+            channels: true,
+            users: true,
+            [nav]: !state.navbar[nav]
         }
     }
 
@@ -110,6 +122,7 @@ export default function () {
         setChannelUsers,
         setUser,
         sendMessage,
-        createChannel
+        createChannel,
+        toggleNavbar
     }
 }

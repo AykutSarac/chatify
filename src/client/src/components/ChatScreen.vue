@@ -187,7 +187,7 @@ img {
   -webkit-user-drag: none;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 968px) {
   .chatScreen {
     width: 100%;
   }

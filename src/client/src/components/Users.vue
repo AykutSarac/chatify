@@ -1,5 +1,5 @@
 <template>
-  <div class="col-2 d-flex flex-column p-0 users">
+  <div class="col-2 d-flex flex-column p-0 users" :class="{ hide: navbar.users }">
     <a
       v-for="user in channelUsers"
       :key="user.id"
@@ -21,11 +21,12 @@ export default {
   setup() {
     const store = inject("store");
 
-    const { channelUsers } = store();
+    const { channelUsers, navbar } = store();
 
     return {
       avatar1,
       channelUsers,
+      navbar
     };
   },
 };
@@ -47,8 +48,18 @@ a:hover {
   text-overflow: ellipsis;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 968px) {
   .users {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16rem;
+    height: 100vh;
+    filter: drop-shadow(-5px 0 20px #aaaaaa);
+    animation: animateLeft .2s;
+  }
+
+  .users.hide {
     display: none !important;
   }
 }

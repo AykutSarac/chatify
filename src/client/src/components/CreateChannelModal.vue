@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { inject, ref } from '@vue/runtime-core'
+import { inject } from '@vue/runtime-core'
 
 
 export default {
