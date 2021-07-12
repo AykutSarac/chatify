@@ -22,7 +22,7 @@ const instance = axios.create({
 export default function () {
     const setUser = async (userId) => {
         try {
-            const data = await instance.get('/users?userId=' + userId).then(res => res.data)
+            const data = await instance.get('/getUserById?userId=' + userId).then(res => res.data)
             state.currentUser = data;
 
             sessionStorage.setItem('user', JSON.stringify(state.currentUser))
@@ -42,7 +42,7 @@ export default function () {
 
     const setChannelUsers = async (channelId) => {
         try {
-            const data = await instance.get('/channelUsers?channelId=' + channelId).then(res => res.data)
+            const data = await instance.get('/getUsers?channelId=' + channelId).then(res => res.data)
             state.channelUsers = data;
         } catch (err) {
             state.error = err
@@ -51,16 +51,35 @@ export default function () {
 
     const getMessages = async (channelId) => {
         try {
-            const data = await instance.get('/messages?channelId=' + channelId).then(res => res.data)
+            const data = await instance.get('/getMessages?channelId=' + channelId).then(res => res.data)
             state.channelMessages = data;
         } catch (err) {
             state.error = err
         }
     }
 
+    const addMessage = async (msgData) => {
+        const userData = await getUserData(msgData.userId)
+
+        const data = {
+            ...msgData,
+            ...userData
+        }
+
+        state.channelMessages = [...state.channelMessages, data]
+    }
+
+    const getUserData = async (userId) => {
+        const user = await instance.get('/getUserById?userId=' + userId).then(res => res.data);
+        return {
+            avatar: user.avatar,
+            username: user.username
+        }
+    }
+
     const getChannels = async (userId) => {
         try {
-            const data = await instance.get('/channels?userId=' + userId).then(res => res.data)
+            const data = await instance.get('/getChannels?userId=' + userId).then(res => res.data)
             state.channels = data;
             if (!state.currentChannel?.id) setChannel(state.channels[0].id)
         } catch (err) {
@@ -70,15 +89,13 @@ export default function () {
 
     const sendMessage = async (userId, channelId, message) => {
         try {
-
-            await instance.post('/messages', {
+            await instance.post('/addMessage', {
                 userId,
                 channelId,
                 message,
                 date: new Date()
-            }).then(res => res.data)
+            }).then(res => connection.send(JSON.stringify(res.data)))
 
-            await getMessages(channelId)
         } catch (err) {
             state.error = err
         }
@@ -87,7 +104,7 @@ export default function () {
     const createChannel = async (userId, name) => {
         try {
 
-            const data = await instance.post('/channels', {
+            const data = await instance.post('/addChannel', {
                 userId,
                 name
             }).then(res => res.data)
@@ -101,7 +118,7 @@ export default function () {
 
     const setChannel = async (channelId) => {
         try {
-            const data = await instance.get('/getChannel?channelId=' + channelId).then(res => res.data)
+            const data = await instance.get('/getChannelById?channelId=' + channelId).then(res => res.data)
             state.currentChannel = data
 
             await getMessages(state.currentChannel.id)
@@ -123,6 +140,7 @@ export default function () {
         setUser,
         sendMessage,
         createChannel,
-        toggleNavbar
+        toggleNavbar,
+        addMessage
     }
 }

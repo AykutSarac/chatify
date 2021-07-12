@@ -50,14 +50,12 @@
         </div>
       </div>
     </div>
-    <form>
       <input
         type="text"
         class="chatbox p-2"
         placeholder="Send a message..."
         @keyup.enter="userSendMsg"
       />
-    </form>
   </div>
 </template>
 
@@ -70,7 +68,7 @@ export default {
   async setup() {
     const store = inject("store");
 
-    const { channelMessages, currentUser, currentChannel, sendMessage } =
+    const { channelMessages, currentUser, currentChannel, sendMessage, addMessage } =
       store();
 
     onUpdated(() => {
@@ -82,15 +80,17 @@ export default {
     });
 
     const userSendMsg = function (e) {
-      e.preventDefault()
+      e.preventDefault();
+
       sendMessage(
         currentUser.value.id,
         currentChannel.value.id,
         e.target.value
       );
+
       e.target.value = "";
     };
-
+    
     return {
       avatar1,
       currentUser,
@@ -106,7 +106,8 @@ export default {
 
       return text.replace(
         URLMatcher,
-        (text) => `<a class="text-primary" rel="noreferrer" target="_blank" href="${text}">${text}</a>`
+        (text) =>
+          `<a class="text-primary" rel="noreferrer" target="_blank" href="${text}">${text}</a>`
       );
     },
   },

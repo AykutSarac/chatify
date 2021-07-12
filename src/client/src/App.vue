@@ -19,13 +19,21 @@ import { provide } from "@vue/runtime-core";
 import store from "./store";
 provide("store", store);
 
-const { setUser } = store();
+const { setUser, addMessage, currentChannel } = store();
 
 if (sessionStorage.getItem("user")) {
   const userData = JSON.parse(sessionStorage.getItem("user"));
   setUser(userData.id);
 }
 
+connection.onmessage = function (e) {
+  const data = JSON.parse(e.data);
+
+  if (data.channelId === currentChannel.value.id) {
+    addMessage(data);
+  }
+
+};
 </script>
 
 <style>
@@ -36,14 +44,22 @@ if (sessionStorage.getItem("user")) {
 }
 
 @keyframes animateLeft {
-    from { clip-path: polygon(100% 0, 100% 0%, 100% 100%, 100% 100%); }
-    to { clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%); }
+  from {
+    clip-path: polygon(100% 0, 100% 0%, 100% 100%, 100% 100%);
   }
+  to {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
 
-  @keyframes animateRight {
-    from { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
-    to { clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%); }
+@keyframes animateRight {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
   }
+  to {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
 
 body {
   overflow: hidden;

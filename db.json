@@ -28,12 +28,12 @@
     {
       "username": "Aykut",
       "id": 1,
-      "avatar": "/src/assets/avatar1.svg"
+      "avatar": "http://localhost:3000/src/assets/avatar1.svg"
     },
     {
       "username": "John Doe",
       "id": 2,
-      "avatar": "/src/assets/avatar2.svg"
+      "avatar": "http://localhost:3000/src/assets/avatar2.svg"
     }
   ],
   "messages": [

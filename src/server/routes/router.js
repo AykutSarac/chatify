@@ -1,11 +1,10 @@
 const axios = require('axios')
-
 const instance = axios.create({ baseURL: 'http://localhost:5000' })
 
 module.exports = function (fastify, options, done) {
 
     // Get all channels the user is inside
-    fastify.get('/channels', async (req, res) => {
+    fastify.get('/getChannels', async (req, res) => {
 
         try {
             const { userId } = req.query;
@@ -20,8 +19,23 @@ module.exports = function (fastify, options, done) {
         }
     });
 
+
+    // Get user by userId
+    fastify.get('/getUserById', async (req, res) => {
+        try {
+            const { userId } = req.query
+
+            const data = await instance.get('/users/' + userId)
+            res.status(200).send(data.data)
+
+        } catch (err) {
+            console.error(err)
+            res.status(404).send(err)
+        }
+    })
+
     // Get all channels the user is inside
-    fastify.get('/getChannel', async (req, res) => {
+    fastify.get('/getChannelById', async (req, res) => {
 
         try {
             const { channelId } = req.query;
@@ -35,8 +49,8 @@ module.exports = function (fastify, options, done) {
         }
     });
 
-    // Get channel users
-    fastify.get('/channelUsers', async (req, res) => {
+    // Get channel users by channelId
+    fastify.get('/getUsers', async (req, res) => {
 
         try {
             const { channelId } = req.query;
@@ -62,13 +76,14 @@ module.exports = function (fastify, options, done) {
     });
 
 
-    // Get all messages of the channel
-    fastify.get('/messages', async (req, res) => {
+    // Get all messages by channelId
+    fastify.get('/getMessages', async (req, res) => {
         try {
             const { channelId } = req.query;
 
-            const data = await instance.get('/messages').then(res => res.data)
-            const messageList = await Promise.all(data.filter(msg => msg.channelId === Number(channelId)).map(async msg => {
+            const data = await instance.get('/messages?channelId=' + channelId).then(res => res.data)
+
+            const messageList = await Promise.all(data.map(async msg => {
                 const user = await instance.get('/users/' + msg.userId).then(res => res.data)
 
                 return {
@@ -78,6 +93,7 @@ module.exports = function (fastify, options, done) {
                 }
             }))
 
+
             res.status(200).send(messageList)
         } catch (err) {
             res.status(404).send(err)
@@ -85,8 +101,8 @@ module.exports = function (fastify, options, done) {
         }
     });
 
-    // Send a message to channel
-    fastify.post('/messages', async (req, res) => {
+    // Create message
+    fastify.post('/addMessage', async (req, res) => {
 
         try {
             const { userId, channelId, message, date } = req.body
@@ -98,17 +114,13 @@ module.exports = function (fastify, options, done) {
                 date
             }
 
-            console.log(req.body);
-
             const data = await instance.post('/messages', JSON.stringify(msgData), {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
+            }).then(res => res.data)
 
-            console.log(data.data);
-
-            res.status(200).send(data.data)
+            res.status(200).send(data)
         } catch (err) {
             console.error(err)
             res.status(404).send(err)
@@ -116,11 +128,10 @@ module.exports = function (fastify, options, done) {
     });
 
 
-    // Add new channel
-    fastify.post('/channels', async (req, res) => {
+    // Create new channel
+    fastify.post('/addChannel', async (req, res) => {
 
         try {
-
             const { name, userId } = req.body
 
             const chData = {
@@ -137,19 +148,6 @@ module.exports = function (fastify, options, done) {
             })
 
             res.status(200).send(data.data)
-        } catch (err) {
-            console.error(err)
-            res.status(404).send(err)
-        }
-    })
-
-    fastify.get('/users', async (req, res) => {
-        try {
-            const { userId } = req.query
-
-            const data = await instance.get('/users/' + userId)
-            res.status(200).send(data.data)
-
         } catch (err) {
             console.error(err)
             res.status(404).send(err)

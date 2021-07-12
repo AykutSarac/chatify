@@ -2,7 +2,7 @@
 <h1>💬 Chatify</h1>
 </div>
 
-<div align="center">Full stack Chat Application made with Vue 3 & Fastify.</div>
+<div align="center">Full stack Realtime Chat Application made with Vue 3, Fastify and WebSocket.</div>
 
 ## Preview
 
@@ -30,6 +30,8 @@ npm install
 
 // Run json-server/fastify & vue client
 npm run concurrently
+
+>> Chatify running at http://localhost:3000
 ```
 
 ## Author
