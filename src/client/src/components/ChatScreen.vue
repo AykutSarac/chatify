@@ -76,7 +76,6 @@ export default {
       const input = document.querySelector("input");
 
       if (input) {
-        console.log(input);
         input.focus();
       }
 
