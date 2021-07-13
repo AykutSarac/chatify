@@ -9,14 +9,13 @@
     "serve": "vite preview",
     "server": "node src/server/server.js",
     "json-server": "json-server --watch db.json --port 5000",
-    "concurrently": "concurrently \"npm run server\" \"npm run json-server\" \"npm run dev\""
+    "start": "concurrently \"npm run server\" \"npm run json-server\" \"npm run dev\""
   },
   "dependencies": {
     "axios": "^0.21.1",
     "fastify": "^3.18.1",
     "fastify-cors": "^6.0.1",
     "fastify-websocket": "^3.2.0",
-    "nodemon": "^2.0.9",
     "vue": "^3.0.5"
   },
   "devDependencies": {
