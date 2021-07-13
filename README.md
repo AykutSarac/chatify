@@ -31,7 +31,7 @@
 npm install
 
 // Run json-server/fastify & vue client
-npm run start
+npm start
 
 >> Chatify running at http://localhost:3000
 ```
