@@ -4,10 +4,9 @@
     :class="{ hide: navbar.channels }"
   >
     <div class="d-flex flex-column">
-      <div class="d-flex flex-row justify-content-between mx-1 m-2 w-90">
+      <div class="d-flex flex-row justify-content-between mx-1 mb-4 m-2 w-90">
         <h5 class="fw-bold mt-auto mr-2">Channel List</h5>
         <button
-          class="btn btn-md btn-success"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
         >
@@ -19,13 +18,13 @@
         href="#"
         v-for="channel in channels"
         :key="channel.id"
-        class="d-flex flex-column mt-2 gap-1"
+        class="d-flex flex-column mb-3 mx-2"
         :class="{ current: channel.id === currentChannel.id }"
         :id="channel.id"
         @click="setCurrentChannel"
       >
-        <h6 class="fw-bold text-dark">{{ channel.name }}</h6>
-        <span class="text-muted">Last message...</span>
+        <h6 class="fw-bold">{{ channel.name }}</h6>
+        <span>Last message...</span>
       </a>
     </div>
   </div>
@@ -61,12 +60,23 @@ export default {
 <style scoped>
 .current,
 .current:hover {
-  background: #dfecd1;
+  background: var(--black1);
+  color: var(--white1);
+}
+
+.current span {
+  color: var(--white1);
 }
 
 a {
   padding: 0.5em;
   border-radius: 5px;
+  background: var(--white1);
+  filter: drop-shadow(1px 2px 4px rgb(170, 170, 170));
+}
+
+a span {
+  color: var(--gray1);
 }
 
 a:hover {
@@ -74,15 +84,23 @@ a:hover {
 }
 
 .channels {
-  background: #f5f5f5;
+  background: var(--white2);
 }
 
 button {
   font-size: 1rem;
   outline: none;
   border: none;
-  border-radius: 5px;
   font-size: 1rem;
+  background: var(--purple1);
+  border-radius: 50%;
+  color: var(--white1);
+  font-weight: 600;
+  padding: .3em .8em;
+}
+
+button:hover {
+  background: var(--purple1hover);
 }
 
 h5 {

@@ -23,7 +23,7 @@
           header
         "
       >
-        <h2 class="text-success fw-bold">{{ currentChannel.name }}</h2>
+        <h2 class="fw-bold">{{ currentChannel.name }}</h2>
         <p class="text-muted" v-if="channelMessages.length === 0">
           This place is so quiet, start chatting...
         </p>
@@ -42,20 +42,20 @@
             alt="avatar"
           />
           <div class="text">
-            <div class="username">{{ msg.username }}</div>
-            <div class="chatfield p-2 rounded">
+            <div class="username fw-bold">{{ msg.username }}</div>
+            <div class="chatfield p-2">
               <span v-html="convertToLink(msg.message)"></span>
             </div>
           </div>
         </div>
       </div>
     </div>
-      <input
-        type="text"
-        class="chatbox p-2"
-        placeholder="Send a message..."
-        @keyup.enter="userSendMsg"
-      />
+    <input
+      type="text"
+      class="chatbox px-3 p-2"
+      placeholder="Send a message..."
+      @keyup.enter="userSendMsg"
+    />
   </div>
 </template>
 
@@ -68,11 +68,17 @@ export default {
   async setup() {
     const store = inject("store");
 
-    const { channelMessages, currentUser, currentChannel, sendMessage, addMessage } =
+    const { channelMessages, currentUser, currentChannel, sendMessage } =
       store();
 
     onUpdated(() => {
       const chatList = document.getElementsByClassName("chatlist")[0];
+      const input = document.querySelector("input");
+
+      if (input) {
+        console.log(input);
+        input.focus();
+      }
 
       if (chatList) {
         chatList.scrollTop = chatList.scrollHeight;
@@ -82,6 +88,8 @@ export default {
     const userSendMsg = function (e) {
       e.preventDefault();
 
+      if (e.target.value === "") return;
+
       sendMessage(
         currentUser.value.id,
         currentChannel.value.id,
@@ -90,7 +98,7 @@ export default {
 
       e.target.value = "";
     };
-    
+
     return {
       avatar1,
       currentUser,
@@ -118,16 +126,20 @@ export default {
 .chatbox {
   outline: none;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 1rem;
-  background: #f0f0f0;
+  background: var(--white3);
   transition: 0.2s;
-  color: #383838;
+  color: var(--black2);
 }
 
 .header {
   width: 100%;
-  border-bottom: 2px #8dbd8d solid;
+  border-bottom: 2px var(--gray1) solid;
+}
+
+h2 {
+  color: var(--purple1);
 }
 
 .chatlist {
@@ -148,17 +160,22 @@ export default {
   background: #8dbd8d;
 }
 
-input {
-  width: 100%;
-}
-
 .chatfield {
-  background: #c6d8e4;
+  background: var(--purple1);
+  color: var(--white2);
+  border-radius: 10px;
+  border-top-left-radius: 0;
 }
 
 .chatbox:focus,
 .self .chatfield {
-  background: #dfecd1;
+  background: var(--purple2);
+  color: var(--black1);
+}
+
+.self .chatfield {
+  border-top-right-radius: 0;
+  border-top-left-radius: 10px;
 }
 
 .chatfield {

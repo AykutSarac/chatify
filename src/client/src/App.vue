@@ -51,8 +51,15 @@ connection.onmessage = function (message) {
   box-sizing: border-box;
 }
 
-body {
-  overflow: hidden;
+:root {
+  --white1: #ffffff;
+  --white2: #f9fbfc;
+  --white3: #f0f0f0;
+  --black1: #30333d;
+  --purple1: #6a00ffb3;
+  --purple1hover: linear-gradient(90deg, rgba(106,0,255,0.42930675688244047) 0%, rgba(209,0,255,0.43) 100%);
+  --purple2: #e9eff4;
+  --gray1: #a4acb2;
 }
 
 .main {
@@ -66,8 +73,9 @@ a {
 
 body {
   scroll-behavior: smooth;
-  font-family: "Roboto", sans-serif;
+  font-family: "Nunito", sans-serif;
   font-display: auto;
+  overflow: hidden;
 }
 
 @keyframes animateLeft {

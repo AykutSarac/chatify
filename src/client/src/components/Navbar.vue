@@ -3,7 +3,7 @@
     class="
       navbar
       p-2
-      bg-success
+      px-4
       text-light
       w-100
       d-flex
@@ -67,6 +67,7 @@ a:hover {
 
 .navbar {
   z-index: 1;
+  background: var(--purple1);
 }
 
 @media screen and (max-width: 968px) {

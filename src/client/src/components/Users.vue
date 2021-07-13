@@ -7,7 +7,7 @@
       class="profile p-1 m-2 mx-2 d-flex flex-row align-items-center gap-2"
     >
       <img :src="user?.avatar || avatar1" width="38" height="38" alt="avatar" />
-      <span>{{ user.username }}</span>
+      <span class="fw-bold">{{ user.username }}</span>
     </a>
   </div>
 </template>
@@ -34,11 +34,12 @@ export default {
 
 <style scoped>
 .users {
-  background: #f5f5f5;
+    background: var(--white2);
 }
 
 a:hover {
-  background: #dfecd1;
+  background: var(--purple1hover);
+  color: var(--white1);
   border-radius: 5px;
 }
 

@@ -14,9 +14,10 @@
         type="text"
         class="form-control"
         id="uid"
-        placeholder="Enter your user ID"
+        placeholder="Type 1 or 2..."
+        required="true"
       />
-      <button class="btn btn-success mt-2" @click="login">Login</button>
+      <input class="btn mt-2" type="submit" @click="login" value="Login"/>
     </div>
   </form>
 </template>
@@ -33,7 +34,7 @@ export default {
 
       const input = document.getElementById("uid");
 
-      if (input) {
+      if (input && input?.value !== '') {
         setUser(input.value);
       }
     };
@@ -44,3 +45,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.btn {
+  background: var(--purple1);
+  color: var(--white1);
+}
+
+.btn:hover {
+  filter: brightness(1.2);
+}
+</style>

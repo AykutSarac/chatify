@@ -6,7 +6,7 @@
 
 ## Preview
 
-![preview](https://i.ibb.co/RybqXnF/localhost-3000.png)
+![preview](https://i.ibb.co/dKYyfHM/preview.png)
 
 **Frontend Stack:**
 

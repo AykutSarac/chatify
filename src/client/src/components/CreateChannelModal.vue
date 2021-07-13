@@ -33,7 +33,7 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="onSubmit">Save changes</button>
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal" @click="onSubmit">Save changes</button>
         </div>
       </div>
     </div>
@@ -60,3 +60,14 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.btn-save {
+  background: rgba(106,0,255,1);
+  color: var(--white1);
+}
+
+.btn-save:hover {
+  filter: brightness(1.2);
+}
+</style>
