@@ -1,4 +1,3 @@
-"use strict"
 import { reactive, toRefs } from 'vue'
 import axios from 'axios'
 

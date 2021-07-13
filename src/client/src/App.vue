@@ -21,13 +21,21 @@ provide("store", store);
 
 const { setUser, addMessage, currentChannel } = store();
 
+
+// Get user from sessionStorage if exist
 if (sessionStorage.getItem("user")) {
   const userData = JSON.parse(sessionStorage.getItem("user"));
   setUser(userData.id);
 }
 
-connection.onmessage = function (e) {
-  const data = JSON.parse(e.data);
+/**
+ * Here we're checking the message sent from the server
+ * through websocket. If the channelId from message and
+ * our current channelId matches we are adding it to
+ * our channelMessages state.
+ */
+connection.onmessage = function (message) {
+  const data = JSON.parse(message.data);
 
   if (data.channelId === currentChannel.value.id) {
     addMessage(data);
@@ -41,24 +49,6 @@ connection.onmessage = function (e) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-@keyframes animateLeft {
-  from {
-    clip-path: polygon(100% 0, 100% 0%, 100% 100%, 100% 100%);
-  }
-  to {
-    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-  }
-}
-
-@keyframes animateRight {
-  from {
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-  }
-  to {
-    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-  }
 }
 
 body {
@@ -78,5 +68,23 @@ body {
   scroll-behavior: smooth;
   font-family: "Roboto", sans-serif;
   font-display: auto;
+}
+
+@keyframes animateLeft {
+  from {
+    clip-path: polygon(100% 0, 100% 0%, 100% 100%, 100% 100%);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+
+@keyframes animateRight {
+  from {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  }
+  to {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
+  }
 }
 </style>

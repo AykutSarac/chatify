@@ -1,5 +1,8 @@
 <template>
-  <div class="col-2 d-flex flex-column p-2 channels" :class="{ hide: navbar.channels }">
+  <div
+    class="col-2 d-flex flex-column p-2 channels"
+    :class="{ hide: navbar.channels }"
+  >
     <div class="d-flex flex-column">
       <div class="d-flex flex-row justify-content-between mx-1 m-2 w-90">
         <h5 class="fw-bold mt-auto mr-2">Channel List</h5>
@@ -35,19 +38,21 @@ export default {
   name: "Channels",
   async setup() {
     const store = inject("store");
-    const { channels, setChannel, currentChannel, navbar, toggleNavbar } = store();
+    const { channels, setChannel, currentChannel, navbar, toggleNavbar } =
+      store();
 
     const setCurrentChannel = function (e) {
       let id = e.target.closest("a").id;
+
       setChannel(id);
-      toggleNavbar('channels')
+      toggleNavbar("channels");
     };
 
     return {
       channels,
       currentChannel,
       setCurrentChannel,
-      navbar
+      navbar,
     };
   },
 };
@@ -92,7 +97,7 @@ h5 {
     width: 16rem;
     height: 100vh;
     filter: drop-shadow(-5px 0 20px #aaaaaa);
-    animation: animateRight .2s ;
+    animation: animateRight 0.2s;
   }
 
   .channels.hide {

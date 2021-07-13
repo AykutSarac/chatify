@@ -22,6 +22,8 @@
 
 - JSON-Server
 
+- WebSocket
+
 ## Installation
 
 ```bash
@@ -29,7 +31,7 @@
 npm install
 
 // Run json-server/fastify & vue client
-npm run concurrently
+npm run start
 
 >> Chatify running at http://localhost:3000
 ```
