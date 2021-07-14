@@ -1,33 +1,43 @@
 <template>
-  <div
-    class="
-      navbar
-      p-2
-      px-4
-      text-light
-      w-100
-      d-flex
-      justify-content-between
-    "
-  >
-    <img class="menu" :src="menu" alt="menu" @click="toggleChannels" />
+  <div class="navbar text-light w-100 d-flex justify-content-between">
+    <img
+      v-if="isUserValid"
+      class="menu"
+      :src="menu"
+      alt="menu"
+      @click="toggleChannels"
+    />
     <a href="/">
       <h2 class="m-0">Chatify</h2>
     </a>
-    <img class="users" :src="users" alt="users" @click="toggleUsers" />
+    <img
+      v-if="isUserValid"
+      class="users"
+      :src="users"
+      alt="users"
+      @click="toggleUsers"
+    />
   </div>
 </template>
 
 <script>
 import menu from "../assets/menu.svg";
 import users from "../assets/users.svg";
-import { inject } from "@vue/runtime-core";
+import { inject, ref, toRefs } from "@vue/runtime-core";
 
 export default {
   name: "Navbar",
-  setup() {
+  props: {
+    hidden: Boolean
+  },
+  setup(props) {
+
+    const { hidden } = toRefs(props)
+
     const store = inject("store");
     const { toggleNavbar } = store();
+    const isUserValid = ref(hidden)
+
 
     const toggleChannels = function () {
       toggleNavbar("channels");
@@ -42,6 +52,7 @@ export default {
       users,
       toggleChannels,
       toggleUsers,
+      isUserValid
     };
   },
 };
@@ -68,12 +79,17 @@ a:hover {
 .navbar {
   z-index: 1;
   background: var(--purple1);
+  padding: 0.5em 1em;
 }
 
 @media screen and (max-width: 968px) {
   .menu,
   .users {
     display: inline-block;
+  }
+
+  .navbar {
+    padding: 1em;
   }
 }
 </style>

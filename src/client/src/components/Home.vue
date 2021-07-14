@@ -1,16 +1,22 @@
 <template>
-  <Login v-if="hidden" />
-  {{ currentUser.value?.id }}
-  <Suspense>
-    <template v-if="!hidden">
-      <Channels />
-      <ChatScreen />
-      <Users />
-    </template>
-  </Suspense>
+  <div class="jumbotron vh-100 d-flex flex-column">
+    <Navbar :hidden="!hidden" />
+    <div class="main row h-100 m-0">
+      <Login v-if="hidden" />
+      {{ currentUser.value?.id }}
+      <Suspense>
+        <template v-if="!hidden">
+          <Channels />
+          <ChatScreen />
+          <Users />
+        </template>
+      </Suspense>
+    </div>
+  </div>
 </template>
 
 <script>
+import Navbar from "./Navbar.vue";
 import Login from "./Login.vue";
 import Channels from "./Channels.vue";
 import ChatScreen from "./ChatScreen.vue";
@@ -39,6 +45,7 @@ export default {
     ChatScreen,
     Users,
     Login,
+    Navbar,
   },
 };
 </script>
