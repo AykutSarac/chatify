@@ -57,7 +57,7 @@ a:hover {
     width: 16rem;
     height: 100vh;
     filter: drop-shadow(-5px 0 20px #aaaaaa);
-    animation: animateLeft .2s;
+    z-index: 2;
   }
 
   .users.hide {

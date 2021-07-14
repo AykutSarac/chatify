@@ -71,28 +71,15 @@ a {
   color: unset;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   scroll-behavior: smooth;
   font-family: "Nunito", sans-serif;
   font-display: auto;
   overflow: hidden;
-}
-
-@keyframes animateLeft {
-  from {
-    clip-path: polygon(100% 0, 100% 0%, 100% 100%, 100% 100%);
-  }
-  to {
-    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-  }
-}
-
-@keyframes animateRight {
-  from {
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
-  }
-  to {
-    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0% 100%);
-  }
 }
 </style>
