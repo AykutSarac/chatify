@@ -28,7 +28,7 @@
           This place is so quiet, start chatting...
         </p>
       </div>
-      <div class="chatlist">
+      <div class="messages">
         <div
           v-for="msg in channelMessages"
           :key="msg.id"
@@ -50,13 +50,15 @@
         </div>
       </div>
     </div>
-    <input
-      type="text"
-      class="chatbox px-3 p-2"
-      placeholder="Send a message..."
-      @keyup.enter="userSendMsg"
-    />
-  </div>
+    <div class="chatbox-wrapper">
+      <input
+        type="text"
+        class="chatbox px-3 p-2"
+        placeholder="Send a message..."
+        @keyup.enter="userSendMsg"
+      />
+    </div>
+    </div>
 </template>
 
 <script>
@@ -71,23 +73,21 @@ export default {
     const { channelMessages, currentUser, currentChannel, sendMessage } =
       store();
 
-    onUpdated(() => {
-      const chatList = document.getElementsByClassName("chatlist")[0];
-      const input = document.querySelector("input");
+    onUpdated(() => scrollBottom());
 
-      if (input) {
-        input.focus();
+    const scrollBottom = () => {
+      const messages = document.getElementsByClassName("messages")[0];
+
+      if (messages) {
+        messages.scrollTop = messages.scrollHeight;
       }
+    }
 
-      if (chatList) {
-        chatList.scrollTop = chatList.scrollHeight;
-      }
-    });
-
-    const userSendMsg = function (e) {
+    const userSendMsg = (e) => {
       e.preventDefault();
 
       if (e.target.value === "") return;
+      scrollBottom();
 
       sendMessage(
         currentUser.value.id,
@@ -122,6 +122,7 @@ export default {
 </script>
 
 <style scoped>
+
 .chatbox {
   outline: none;
   border: none;
@@ -130,6 +131,7 @@ export default {
   background: var(--white3);
   transition: 0.2s;
   color: var(--black2);
+  width: 100%;
 }
 
 .header {
@@ -141,22 +143,23 @@ h2 {
   color: var(--purple1);
 }
 
-.chatlist {
+.messages {
+  position: relative;
+  height: 70vh;
+  width: 100%;
+  padding-right: 2em;
   overflow: auto;
-  min-height: 60vh;
-  max-height: 70vh;
-  padding-right: 1em;
 }
 
-.chatlist::-webkit-scrollbar {
+.messages::-webkit-scrollbar {
   background: #d8d6d6;
   width: 8px;
   border-radius: 5px;
 }
 
-.chatlist::-webkit-scrollbar-thumb {
+.messages::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background: #8dbd8d;
+  background: var(--purple1hover);
 }
 
 .chatfield {
@@ -206,7 +209,25 @@ img {
 
 @media screen and (max-width: 968px) {
   .chatScreen {
+    position: fixed;
     width: 100%;
+    height: calc(100% - 60px);
+  }
+
+.chatbox-wrapper {
+    position: absolute;
+    background: var(--white1);
+    width: 93%;
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+    align-items: center;
+    left: 0;
+  }
+
+  .chatbox {
+    width: 100%;
+    margin: 1em;
   }
 }
 </style>
