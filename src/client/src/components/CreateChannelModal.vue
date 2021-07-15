@@ -47,11 +47,12 @@ import { inject } from '@vue/runtime-core'
 export default {
     setup() {
         const store = inject('store')
-        const { createChannel, currentUser } = store();
+        const { createChannel, currentUser, toggleNavbar } = store();
         
         const onSubmit = function() {
             const channelName = document.getElementById('channelname').value
             createChannel(currentUser.value.id, channelName)
+            toggleNavbar('channels')
         }
 
         return {
