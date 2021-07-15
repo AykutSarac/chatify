@@ -1,158 +1,156 @@
-const axios = require('axios')
-const instance = axios.create({ baseURL: 'http://localhost:5000' })
+const {
+    getMessages,
+    getChannels,
+    getUserById,
+    getChannelById,
+    getUsers,
+    postChannel,
+    postMessage
+} = require('../controllers/messages')
 
-module.exports = function (fastify, options, done) {
 
-    // Get all channels the user is inside
-    fastify.get('/getChannels', async (req, res) => {
+// Message schema
+const Message = {
+    type: 'object',
+    properties: {
+        channelId: { type: 'integer'},
+        message: { type: 'string'},
+        userId: { type: 'integer'},
+        date: { type: 'string'},
+        id: { type: 'integer'}
+    }
+}
 
-        try {
-            const { userId } = req.query;
+// User schema
+const User = {
+    type: 'object',
+    properties: {
+        username: { type: 'string'},
+        id: { type: 'integer'},
+        avatar: { type: 'string'}
+    }
+}
 
-            const data = await instance.get('/channels').then(res => res.data)
-            const channelList = data.filter(ch => ch.users.includes(Number(userId)))
 
-            res.status(200).send(channelList);
-        } catch (err) {
-            res.status(404).send(err)
-            console.error(err.response)
+// Channel schema
+const Channel = {
+    type: 'object',
+    properties: {
+        name: { type: 'string'},
+        users: { type: 'array'},
+        id: { type: 'integer'}
+    }
+}
+
+// Options for /getChannels
+const getChannelsOpts = {
+    schema: {
+        response: {
+            200: {
+                type: 'array',
+                message: Channel
+            }
         }
-    });
+    },
+    handler: getChannels
+}
 
+// Options for /getUserById
+const getUserByIdOpts = {
+    schema: {
+        response: {
+            200: User
+        }
+    },
+    handler: getUserById
+}
+
+// Options for /getChannelById
+const getChannelByIdOpts = {
+    schema: {
+        response: {
+            200: Channel
+        }
+    },
+    handler: getChannelById
+}
+
+// Options for /getUsers
+const getUsersOpts = {
+    schema: {
+        response: {
+            200: {
+                type: 'array',
+                message: User
+            }
+        }
+    },
+    handler: getUsers
+}
+
+// Options for /getMessages
+const getMessagesOpts = {
+    schema: {
+        response: {
+            200: {
+                type: 'array',
+                message: Message
+            }
+        }
+    },
+    handler: getMessages
+}
+
+// Options for /postMessage
+const postMessageOpts = {
+    schema: {
+        response: {
+            200: Message
+        },
+        response: {
+            201: Message,
+        },
+    },
+    handler: postMessage
+}
+
+// Options for /postChannel
+const postChannelOpts = {
+    schema: {
+        response: {
+            200: Channel
+        },
+        response: {
+            201: Channel,
+        },
+    },
+    handler: postChannel
+}
+
+function itemRoutes(fastify, options, done) {
+
+    // Get messages by channelId
+    fastify.get('/messages', getMessagesOpts)
 
     // Get user by userId
-    fastify.get('/getUserById', async (req, res) => {
-        try {
-            const { userId } = req.query
+    fastify.get('/users/:id', getUserByIdOpts)
 
-            const data = await instance.get('/users/' + userId)
-            res.status(200).send(data.data)
+    // Get channels by userId
+    fastify.get('/channels', getChannelsOpts)
 
-        } catch (err) {
-            console.error(err)
-            res.status(404).send(err)
-        }
-    })
+    // Get channel by channelId
+    fastify.get('/channels/:id', getChannelByIdOpts)
 
-    // Get all channels the user is inside
-    fastify.get('/getChannelById', async (req, res) => {
+    // Get users by channelId
+    fastify.get('/users', getUsersOpts)
 
-        try {
-            const { channelId } = req.query;
+    // Add message
+    fastify.post('/messages', postMessageOpts)
 
-            const data = await instance.get('/channels/' + Number(channelId)).then(res => res.data)
-
-            res.status(200).send(data);
-        } catch (err) {
-            res.status(404).send(err)
-            console.error(err.response)
-        }
-    });
-
-    // Get channel users by channelId
-    fastify.get('/getUsers', async (req, res) => {
-
-        try {
-            const { channelId } = req.query;
-
-
-            const sortByName = (a, b) => {
-                if (a.username < b.username) { return -1; }
-                if (a.username > b.username) { return 1; }
-                return 0;
-            }
-
-            const data = await instance.get('/channels/' + channelId).then(res => res.data?.users)
-            const userList = await Promise.all(data.map(async userId =>
-                await instance.get('/users/' + userId).then(res => res.data)
-            ))
-
-            res.status(200).send(userList.sort(sortByName));
-        } catch (err) {
-            res.status(404).send(err)
-            console.error(err.response)
-        }
-
-    });
-
-
-    // Get all messages by channelId
-    fastify.get('/getMessages', async (req, res) => {
-        try {
-            const { channelId } = req.query;
-
-            const data = await instance.get('/messages?channelId=' + channelId).then(res => res.data)
-
-            const messageList = await Promise.all(data.map(async msg => {
-                const user = await instance.get('/users/' + msg.userId).then(res => res.data)
-
-                return {
-                    ...msg,
-                    username: user.username,
-                    avatar: user?.avatar
-                }
-            }))
-
-
-            res.status(200).send(messageList)
-        } catch (err) {
-            res.status(404).send(err)
-            console.error(err.response)
-        }
-    });
-
-    // Create message
-    fastify.post('/addMessage', async (req, res) => {
-
-        try {
-            const { userId, channelId, message, date } = req.body
-
-            const msgData = {
-                channelId,
-                message,
-                userId,
-                date
-            }
-
-            const data = await instance.post('/messages', JSON.stringify(msgData), {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(res => res.data)
-
-            res.status(200).send(data)
-        } catch (err) {
-            console.error(err)
-            res.status(404).send(err)
-        }
-    });
-
-
-    // Create new channel
-    fastify.post('/addChannel', async (req, res) => {
-
-        try {
-            const { name, userId } = req.body
-
-            const chData = {
-                name,
-                createdBy: userId,
-                date: new Date(),
-                users: [userId]
-            }
-
-            const data = await instance.post('/channels', JSON.stringify(chData), {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-
-            res.status(200).send(data.data)
-        } catch (err) {
-            console.error(err)
-            res.status(404).send(err)
-        }
-    })
+    // Add channel
+    fastify.post('/channels', postChannelOpts)
 
     done()
 }
+
+module.exports = itemRoutes
