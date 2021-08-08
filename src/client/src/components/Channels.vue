@@ -1,17 +1,9 @@
 <template>
-  <div
-    class="col-2 d-flex flex-column p-2 channels"
-    :class="{ hide: navbar.channels }"
-  >
+  <div class="col-2 d-flex flex-column p-2 channels" :class="{ hide: navbar.channels }">
     <div class="d-flex flex-column">
       <div class="d-flex flex-row justify-content-between mx-1 mb-4 m-2 w-90">
         <h5 class="fw-bold mt-auto mr-2">Channel List</h5>
-        <button
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          +
-        </button>
+        <button data-bs-toggle="modal" data-bs-target="#exampleModal">+</button>
       </div>
 
       <a
@@ -31,20 +23,19 @@
 </template>
 
 <script>
-import { inject } from "vue";
+import { inject } from 'vue';
 
 export default {
-  name: "Channels",
+  name: 'Channels',
   async setup() {
-    const store = inject("store");
-    const { channels, setChannel, currentChannel, navbar, toggleNavbar } =
-      store();
+    const store = inject('store');
+    const { channels, setChannel, currentChannel, navbar, toggleNavbar } = store();
 
     const setCurrentChannel = function (e) {
-      let id = e.target.closest("a").id;
+      let id = e.target.closest('a').id;
 
       setChannel(id);
-      toggleNavbar("channels");
+      toggleNavbar('channels');
     };
 
     return {
@@ -96,7 +87,7 @@ button {
   border-radius: 50%;
   color: var(--white1);
   font-weight: 600;
-  padding: .3em .8em;
+  padding: 0.3em 0.8em;
 }
 
 button:hover {

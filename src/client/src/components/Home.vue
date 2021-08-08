@@ -16,17 +16,17 @@
 </template>
 
 <script>
-import Navbar from "./Navbar.vue";
-import Login from "./Login.vue";
-import Channels from "./Channels.vue";
-import ChatScreen from "./ChatScreen.vue";
-import Users from "./Users.vue";
+import Navbar from './Navbar.vue';
+import Login from './Login.vue';
+import Channels from './Channels.vue';
+import ChatScreen from './ChatScreen.vue';
+import Users from './Users.vue';
 
-import { inject, onUpdated, ref } from "@vue/runtime-core";
+import { inject, onUpdated, ref } from '@vue/runtime-core';
 
 export default {
   async setup() {
-    const store = inject("store");
+    const store = inject('store');
     const hidden = ref(true);
     const { currentChannel, currentUser } = store();
 

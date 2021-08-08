@@ -1,50 +1,36 @@
 <template>
   <div class="navbar text-light w-100 d-flex justify-content-between">
-    <img
-      v-if="isUserValid"
-      class="menu"
-      :src="menu"
-      alt="menu"
-      @click="toggleChannels"
-    />
+    <img v-if="isUserValid" class="menu" :src="menu" alt="menu" @click="toggleChannels" />
     <a href="/">
       <h2 class="m-0">Chatify</h2>
     </a>
-    <img
-      v-if="isUserValid"
-      class="users"
-      :src="users"
-      alt="users"
-      @click="toggleUsers"
-    />
+    <img v-if="isUserValid" class="users" :src="users" alt="users" @click="toggleUsers" />
   </div>
 </template>
 
 <script>
-import menu from "../assets/menu.svg";
-import users from "../assets/users.svg";
-import { inject, ref, toRefs } from "@vue/runtime-core";
+import menu from '../assets/menu.svg';
+import users from '../assets/users.svg';
+import { inject, ref, toRefs } from '@vue/runtime-core';
 
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   props: {
-    hidden: Boolean
+    hidden: Boolean,
   },
   setup(props) {
+    const { hidden } = toRefs(props);
 
-    const { hidden } = toRefs(props)
-
-    const store = inject("store");
+    const store = inject('store');
     const { toggleNavbar } = store();
-    const isUserValid = ref(hidden)
-
+    const isUserValid = ref(hidden);
 
     const toggleChannels = function () {
-      toggleNavbar("channels");
+      toggleNavbar('channels');
     };
 
     const toggleUsers = function () {
-      toggleNavbar("users");
+      toggleNavbar('users');
     };
 
     return {
@@ -52,12 +38,11 @@ export default {
       users,
       toggleChannels,
       toggleUsers,
-      isUserValid
+      isUserValid,
     };
   },
 };
 </script>
-
 
 <style scoped>
 h2 {

@@ -1,28 +1,9 @@
 <template>
   <div
-    class="
-      col-8
-      d-flex
-      flex-column
-      p-0
-      justify-content-between
-      p-3
-      border border-top-0
-      chatScreen
-    "
+    class="col-8 d-flex flex-column p-0 justify-content-between p-3 border border-top-0 chatScreen"
   >
     <div class="d-flex flex-column justify-content-between chat">
-      <div
-        class="
-          d-flex
-          flex-column
-          m-auto
-          text-center
-          justify-content-center
-          mb-2
-          header
-        "
-      >
+      <div class="d-flex flex-column m-auto text-center justify-content-center mb-2 header">
         <h2 class="fw-bold">{{ currentChannel.name }}</h2>
         <p class="text-muted" v-if="channelMessages.length === 0">
           This place is so quiet, start chatting...
@@ -35,12 +16,7 @@
           class="d-flex gap-2 w-75 mb-4 bubble"
           :class="{ self: currentUser.id === msg.userId }"
         >
-          <img
-            :src="msg?.avatar || avatar1"
-            width="50"
-            height="50"
-            alt="avatar"
-          />
+          <img :src="msg?.avatar || avatar1" width="50" height="50" alt="avatar" />
           <div class="text">
             <div class="username fw-bold">{{ msg.username }}</div>
             <div class="chatfield p-2">
@@ -58,44 +34,39 @@
         @keyup.enter="userSendMsg"
       />
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
-import { inject, onUpdated } from "@vue/runtime-core";
-import avatar1 from "../assets/avatar1.svg";
+import { inject, onUpdated } from '@vue/runtime-core';
+import avatar1 from '../assets/avatar1.svg';
 
 export default {
-  name: "ChatScreen",
+  name: 'ChatScreen',
   async setup() {
-    const store = inject("store");
+    const store = inject('store');
 
-    const { channelMessages, currentUser, currentChannel, sendMessage } =
-      store();
+    const { channelMessages, currentUser, currentChannel, sendMessage } = store();
 
     onUpdated(() => scrollBottom());
 
     const scrollBottom = () => {
-      const messages = document.getElementsByClassName("messages")[0];
+      const messages = document.getElementsByClassName('messages')[0];
 
       if (messages) {
         messages.scrollTop = messages.scrollHeight;
       }
-    }
+    };
 
     const userSendMsg = (e) => {
       e.preventDefault();
 
-      if (e.target.value === "") return;
+      if (e.target.value === '') return;
       scrollBottom();
 
-      sendMessage(
-        currentUser.value.id,
-        currentChannel.value.id,
-        e.target.value
-      );
+      sendMessage(currentUser.value.id, currentChannel.value.id, e.target.value);
 
-      e.target.value = "";
+      e.target.value = '';
     };
 
     return {
@@ -114,7 +85,7 @@ export default {
       return text.replace(
         URLMatcher,
         (text) =>
-          `<a class="text-primary" rel="noreferrer" target="_blank" href="${text}">${text}</a>`
+          `<a class="text-primary" rel="noreferrer" target="_blank" href="${text}">${text}</a>`,
       );
     },
   },
@@ -122,7 +93,6 @@ export default {
 </script>
 
 <style scoped>
-
 .chatbox {
   outline: none;
   border: none;
@@ -214,7 +184,7 @@ img {
     height: calc(100% - 60px);
   }
 
-.chatbox-wrapper {
+  .chatbox-wrapper {
     position: absolute;
     background: var(--white1);
     width: 93%;

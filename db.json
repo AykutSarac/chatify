@@ -2,25 +2,17 @@
   "channels": [
     {
       "name": "Message Group",
-      "users": [
-        1,
-        2
-      ],
+      "users": [1, 2],
       "id": 1
     },
     {
       "name": "Demo",
-      "users": [
-        1
-      ],
+      "users": [1],
       "id": 2
     },
     {
       "name": "Demo 2",
-      "users": [
-        2,
-        1
-      ],
+      "users": [2, 1],
       "id": 3
     }
   ],

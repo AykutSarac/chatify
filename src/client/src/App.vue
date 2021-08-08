@@ -6,18 +6,18 @@
 </template>
 
 <script setup>
-import Home from "./components/Home.vue";
-import CreateChannelModal from "./components/CreateChannelModal.vue";
-import { provide } from "@vue/runtime-core";
+import Home from './components/Home.vue';
+import CreateChannelModal from './components/CreateChannelModal.vue';
+import { provide } from '@vue/runtime-core';
 
-import store from "./store";
-provide("store", store);
+import store from './store';
+provide('store', store);
 
 const { setUser, addMessage, currentChannel } = store();
 
 // Get user from sessionStorage if exist
-if (sessionStorage.getItem("user")) {
-  const userData = JSON.parse(sessionStorage.getItem("user"));
+if (sessionStorage.getItem('user')) {
+  const userData = JSON.parse(sessionStorage.getItem('user'));
   setUser(userData.id);
 }
 
@@ -74,7 +74,7 @@ body {
 
 body {
   scroll-behavior: smooth;
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-display: auto;
   overflow: hidden;
 }

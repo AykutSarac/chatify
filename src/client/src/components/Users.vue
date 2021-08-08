@@ -13,20 +13,20 @@
 </template>
 
 <script>
-import { inject } from "@vue/runtime-core";
-import avatar1 from "../assets/avatar1.svg";
+import { inject } from '@vue/runtime-core';
+import avatar1 from '../assets/avatar1.svg';
 
 export default {
-  name: "Users",
+  name: 'Users',
   setup() {
-    const store = inject("store");
+    const store = inject('store');
 
     const { channelUsers, navbar } = store();
 
     return {
       avatar1,
       channelUsers,
-      navbar
+      navbar,
     };
   },
 };
@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .users {
-    background: var(--white2);
+  background: var(--white2);
 }
 
 a:hover {

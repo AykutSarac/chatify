@@ -23,6 +23,7 @@
     "@vue/compiler-sfc": "^3.0.5",
     "concurrently": "^6.2.0",
     "json-server": "^0.16.3",
+    "prettier": "^2.3.2",
     "vite": "^2.4.0"
   }
 }

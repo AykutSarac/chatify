@@ -21,19 +21,20 @@
           <form>
             <div class="form-group">
               <label for="channelname">Channel name:</label>
-              <input type="text" id="channelname" class="form-control" placeholder="Channel name..." />
+              <input
+                type="text"
+                id="channelname"
+                class="form-control"
+                placeholder="Channel name..."
+              />
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-save" data-bs-dismiss="modal" @click="onSubmit">
+            Save changes
           </button>
-          <button type="button" class="btn btn-save" data-bs-dismiss="modal" @click="onSubmit">Save changes</button>
         </div>
       </div>
     </div>
@@ -41,30 +42,29 @@
 </template>
 
 <script>
-import { inject } from '@vue/runtime-core'
-
+import { inject } from '@vue/runtime-core';
 
 export default {
-    setup() {
-        const store = inject('store')
-        const { createChannel, currentUser, toggleNavbar } = store();
-        
-        const onSubmit = function() {
-            const channelName = document.getElementById('channelname').value
-            createChannel(currentUser.value.id, channelName)
-            toggleNavbar('channels')
-        }
+  setup() {
+    const store = inject('store');
+    const { createChannel, currentUser, toggleNavbar } = store();
 
-        return {
-            onSubmit
-        }
-    },
-}
+    const onSubmit = function () {
+      const channelName = document.getElementById('channelname').value;
+      createChannel(currentUser.value.id, channelName);
+      toggleNavbar('channels');
+    };
+
+    return {
+      onSubmit,
+    };
+  },
+};
 </script>
 
 <style scoped>
 .btn-save {
-  background: rgba(106,0,255,1);
+  background: rgba(106, 0, 255, 1);
   color: var(--white1);
 }
 
